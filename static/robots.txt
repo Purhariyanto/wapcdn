@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /404
+Disallow: /404*
+Disallow: /p/*
+Disallow: /page/*
+
+
+Sitemap: https://www.wapcdn.me/sitemap-index.xml
+
