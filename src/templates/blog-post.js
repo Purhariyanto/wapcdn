@@ -113,18 +113,55 @@ const BlogPostTemplate = ({
 }
 
 export const Head = ({ data: { site, markdownRemark: post } }) => {
+  const title = post.frontmatter.title
+  const description = post.frontmatter.description
   const siteUrl = site.siteMetadata?.siteUrl
+  const author = site.siteMetadata.author
   const url = siteUrl + post.fields.slug
   const image = siteUrl + post.frontmatter.img.childImageSharp.gatsbyImageData.images.fallback.src
   const datePub = post.frontmatter.datePub
+  const type = "Article"
+
+  const jsonldArticle = {
+    '@context': 'http://schema.org',
+    '@type': `${type}`,
+    'description': `${description}`,
+    'image': {
+        '@type': 'ImageObject',
+        'url': `${image}`
+    },
+    'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': `${siteUrl}`
+     },
+    'inLanguage': 'id',
+    'name': `${title}`,
+    'headline': `${title}`,
+    'url': `${url}`,
+    'datePublished': `${datePub}`,
+    'dateModified': `${datePub}`,
+    'author': {
+        '@type': 'Person',
+        'name': `${author}`,
+        'url': `${siteUrl}`
+    },
+    'publisher' : {
+        '@type': 'Organization',
+        'name': `${author}`,
+        'logo': {
+            '@type': 'ImageObject',
+            'url': `https://wappur.my.id/icons/icon-512x512.png`
+        }
+    }
+  }
   return (
     <Seo
-    title={post.frontmatter.title}
-    description={post.frontmatter.description}
+    title={title}
+    description={description}
     imageUrl={image}
     url={url}
-    type="article"
-    datePub={datePub}
+    type={type}
+    json={jsonldArticle}
     />
   )
 }
